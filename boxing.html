@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boxing Random 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MENBM6GSNY"></script>
+    <script>
+        function gtag(){dataLayer.push(arguments)}
+        window.dataLayer = window.dataLayer || [];
+        gtag("js", new Date());
+        gtag("config", "G-MENBM6GSNY");
+    </script>
+    
+    <!-- Game Styles -->
+    <link rel="stylesheet" href="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/style.css" type="text/css">
+    
+    <!-- Game Monetization SDK -->
+    <script type="text/javascript">
+        window.SDK_OPTIONS = {
+            gameId: "p4pa453tundv6gm5t1af3633vq0nay9r",
+            onEvent: function (a) {
+                switch (a.name) {
+                    case "SDK_GAME_PAUSE":
+                        console.log("ShowAds - Pause Game ");
+                        c3_callFunction && c3_callFunction("adStarted");
+                        break;
+                    case "SDK_GAME_START":
+                        console.log("ShowAds - Resume Game ");
+                        c3_callFunction && c3_callFunction("onClose");
+                        break;
+                    case "SDK_READY":
+                        break;
+                    case "SDK_ERROR":
+                        c3_callFunction && c3_callFunction("onError");
+                        break;
+                }
+            }
+        };
+    </script>
+    <script id="gamemonetize-sdk" src="https://cdn.jsdelivr.net/gh/st39/sdk@main/sdk.js"></script>
+    
+    <!-- Custom Styles -->
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+        /* Game container styling */
+        #gameContainer {
+            width: 640px !important; /* Reduced width */
+            height: 360px !important; /* Reduced height - 16:9 aspect ratio */
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background-color: #000;
+            position: relative;
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #button {
+            display: none;
+        }
+        
+        .imgb_vis {
+            animation: imgb-animation 7s linear;
+        }
+        
+        @keyframes imgb-animation {
+            10% { transform: translateX(0); }
+            20% { transform: translateX(100px); }
+            90% { transform: translateX(100px); }
+            100% { transform: translateX(0); }
+        }
+        
+        /* Fullscreen button styles */
+        #fullscreen-button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 1000;
+            width: 200px;
+            text-transform: uppercase;
+        }
+        
+        #fullscreen-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
+        #fullscreen-button:active {
+            background-color: #3e8e41;
+            transform: scale(0.98);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 700px) {
+            #gameContainer {
+                width: 480px !important;
+                height: 270px !important;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            #gameContainer {
+                width: 320px !important;
+                height: 180px !important;
+            }
+            
+            #fullscreen-button {
+                font-size: 16px;
+                padding: 10px 20px;
+                width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <noscript>
+        <div id="notSupportedWrap">
+            <h2 id="notSupportedTitle">This content requires JavaScript</h2>
+            <p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+        </div>
+    </noscript>
+    
+    <!-- Game Container - Using the original ID that the game expects -->
+    <div id="gameContainer">
+        <canvas id="#canvas"></canvas>
+        <div class="logo Dark" style="display: none;"></div>
+        <div class="progress Dark" style="display: none;">
+            <div class="empty" style="width: 0%;"></div>
+            <div class="full" style="width: 100%;"></div>
+        </div>
+    </div>
+    
+    <!-- Fullscreen Button -->
+    <button id="fullscreen-button">Fullscreen</button>
+    
+    <!-- Ad Containers -->
+    <div id="imaContainer" style="position: absolute; z-index: 10000; top: 0px; left: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); visibility: hidden; overflow: hidden;">
+        <video id="imaVideo"></video>
+    </div>
+    
+    <div id="imaContainer_new" style="position: absolute; z-index: 10000; top: 0px; left: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); visibility: hidden; overflow: hidden;">
+        <video2 id="imaVideo2"></video2>
+    </div>
+    
+    <!-- Promotional Link -->
+    <div id="button" class="imgb imgb_vis" style="position: fixed; top: 10%; left: -100px; z-index: 10; display: none;">
+        <a target="_blank" href="https://sites.google.com/view/classroom6x/" title="More Unblocked Games 6x">
+            <img src="https://lh4.googleusercontent.com/lUEWrXMVEr4AdjKISyJahDRJ61bwfvHdpeYm86Djn5U8oCm9dI60NGXSBqad9HUvzTXgqlkosA_hWV-VuXPjzrkGvh3_kNSgYk8ySWzXnDpbBCBiooyBbU8oBy3YBZMDkW8RcRVmDuC0raoeqZBm8kBlqs6c5mdfkJeN2aE68lXS_lcOZ5_F7lIuM6qLVg" width="100" height="30" style="cursor:pointer;" alt="More of best Classroom 6x Unblocked Games">
+        </a>
+    </div>
+    
+    <!-- Game Scripts - Order matters! -->
+    <script src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/box2d.wasm.js"></script>
+    <script src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/supportcheck.js"></script>
+    <script src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/offlineclient.js" type="module"></script>
+    <script src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/main.js" type="module"></script>
+    <script src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/register-sw.js" type="module"></script>
+    <script type="module" src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/c3runtime.js"></script>
+    <script type="module" src="https://375982749-284635496716539273.preview.editmysite.com/uploads/b/139890129-344703883907678684/files/scripts/project/scriptsInEvents.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/st39/sdk@main/api.js"></script>
+    <script src="//www.google.com/jsapi"></script>
+    <script>window.parent.maeExportApis_ && window.parent.maeExportApis_();</script>
+    
+    <!-- Fullscreen Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const gameContainer = document.getElementById('gameContainer');
+        
+        // Make sure the button exists
+        if (!fullscreenButton || !gameContainer) {
+            console.error('Fullscreen button or game container not found!');
+            return;
+        }
+        
+        // Add a small delay to ensure the game is loaded before applying styles
+        setTimeout(function() {
+            // Find the canvas that the game creates
+            const canvases = document.getElementsByTagName('canvas');
+            if (canvases.length > 0) {
+                for (let i = 0; i < canvases.length; i++) {
+                    canvases[i].style.width = '100%';
+                    canvases[i].style.height = '100%';
+                    canvases[i].style.position = 'absolute';
+                    canvases[i].style.top = '0';
+                    canvases[i].style.left = '0';
+                }
+            }
+        }, 1000);
+        
+        fullscreenButton.addEventListener('click', function() {
+            console.log('Fullscreen button clicked');
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (gameContainer.requestFullscreen) {
+                    gameContainer.requestFullscreen();
+                } else if (gameContainer.mozRequestFullScreen) { // Firefox
+                    gameContainer.mozRequestFullScreen();
+                } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    gameContainer.webkitRequestFullscreen();
+                } else if (gameContainer.msRequestFullscreen) { // IE/Edge
+                    gameContainer.msRequestFullscreen();
+                }
+                fullscreenButton.textContent = 'Exit Fullscreen';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+                fullscreenButton.textContent = 'Fullscreen';
+            }
+        });
+        
+        // Update button text when fullscreen changes
+        document.addEventListener('fullscreenchange', updateButtonText);
+        document.addEventListener('webkitfullscreenchange', updateButtonText);
+        document.addEventListener('mozfullscreenchange', updateButtonText);
+        document.addEventListener('MSFullscreenChange', updateButtonText);
+        
+        function updateButtonText() {
+            if (document.fullscreenElement) {
+                fullscreenButton.textContent = 'Exit Fullscreen';
+            } else {
+                fullscreenButton.textContent = 'Fullscreen';
+            }
+        }
+        
+        // Add a mutation observer to handle dynamically created canvas elements
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeName === 'CANVAS') {
+                            node.style.width = '100%';
+                            node.style.height = '100%';
+                            node.style.position = 'absolute';
+                            node.style.top = '0';
+                            node.style.left = '0';
+                        }
+                    });
+                }
+            });
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
+        
+        console.log('Fullscreen script initialized');
+    });
+    </script>
+</body>
+</html>
+
