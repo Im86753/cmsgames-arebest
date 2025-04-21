@@ -1,0 +1,164 @@
+<script src="//www.google.com/jsapi"></script>
+    <script>window.parent.maeExportApis_();</script>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Changed from center to flex-start */
+            height: 100vh;
+            background-color: #333;
+            padding-top: 30px; /* Added padding at the top */
+        }
+        
+        .webgl-content {
+            width: 800px;
+            height: 500px;
+            margin: 0 auto;
+        }
+        
+        #gameContainer {
+            width: 800px !important;
+            height: 500px !important;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        /* Fullscreen button styles */
+        #fullscreen-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+        
+        #fullscreen-button:hover {
+            background-color: #45a049;
+        }
+        
+        #fullscreen-button:active {
+            background-color: #3e8e41;
+        }
+        
+        #button {
+            display: none;
+        }
+        
+        .imgb_vis {
+            animation: imgb-animation 7s linear;
+        }
+        
+        @keyframes imgb-animation {
+            10% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(100px);
+            }
+            90% {
+                transform: translateX(100px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lee2sman/everyday@d45d601d2c4d60adf809a0b677c00b7d12aba7e9/96/TemplateData/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/lee2sman/everyday@d45d601d2c4d60adf809a0b677c00b7d12aba7e9/96/TemplateData/UnityProgress.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/codeein/fracital-@07ff75d284a45519040faa6d0db8c05060cb0371/g/rooftop-snipers/UnityLoader.js"></script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/codeein/fracital-@07ff75d284a45519040faa6d0db8c05060cb0371/g/rooftop-snipers/rooftop-snipers.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/st39/sdk@main/api.js"></script>
+
+
+    <div class="webgl-content">
+        <div id="gameContainer" style="background: black;">
+            <canvas id="#canvas"></canvas>
+            <div class="logo Dark" style="display: none;"></div>
+            <div class="progress Dark" style="display: none;">
+                <div class="empty" style="width: 0%;"></div>
+                <div class="full" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <button id="fullscreen-button">Fullscreen</button>
+    
+    <div id="button" class="imgb imgb_vis" style="position: fixed; top: 10%; left: -100px; z-index: 10; display: none;">
+        <a target="_blank" href="https://sites.google.com/view/classroom6x/" title="More Unblocked Games 6x">
+            <img src="https://lh4.googleusercontent.com/lUEWrXMVEr4AdjKISyJahDRJ61bwfvHdpeYm86Djn5U8oCm9dI60NGXSBqad9HUvzTXgqlkosA_hWV-VuXPjzrkGvh3_kNSgYk8ySWzXnDpbBCBiooyBbU8oBy3YBZMDkW8RcRVmDuC0raoeqZBm8kBlqs6c5mdfkJeN2aE68lXS_lcOZ5_F7lIuM6qLVg" width="100" height="30" style="cursor:pointer;" alt="More of best Classroom 6x Unblocked Games" loading="lazy">
+        </a>
+    </div>
+    
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const gameContainer = document.getElementById('gameContainer');
+        
+        // Make sure the button exists
+        if (!fullscreenButton) {
+            console.error('Fullscreen button not found!');
+            return;
+        }
+        
+        fullscreenButton.addEventListener('click', function() {
+            console.log('Fullscreen button clicked');
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (gameContainer.requestFullscreen) {
+                    gameContainer.requestFullscreen();
+                } else if (gameContainer.mozRequestFullScreen) { // Firefox
+                    gameContainer.mozRequestFullScreen();
+                } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    gameContainer.webkitRequestFullscreen();
+                } else if (gameContainer.msRequestFullscreen) { // IE/Edge
+                    gameContainer.msRequestFullscreen();
+                }
+                fullscreenButton.textContent = 'Exit Fullscreen';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+                fullscreenButton.textContent = 'Fullscreen';
+            }
+        });
+        
+        // Update button text when fullscreen changes
+        document.addEventListener('fullscreenchange', updateButtonText);
+        document.addEventListener('webkitfullscreenchange', updateButtonText);
+        document.addEventListener('mozfullscreenchange', updateButtonText);
+        document.addEventListener('MSFullscreenChange', updateButtonText);
+        
+        function updateButtonText() {
+            if (document.fullscreenElement) {
+                fullscreenButton.textContent = 'Exit Fullscreen';
+            } else {
+                fullscreenButton.textContent = 'Fullscreen';
+            }
+        }
+        
+        // Log to confirm script is running
+        console.log('Fullscreen script initialized');
+    });
+    </script>
